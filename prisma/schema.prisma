@@ -16,17 +16,31 @@ model User {
   username    String   @unique @db.VarChar(10)
   email       String   @unique @db.VarChar(33)
   is_verified Boolean  @default(false)
-  profile     Profile?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  profile     Profile?
+  post        Post[]
 }
 
 model Profile {
   id          Int      @id @default(autoincrement())
   user_id     Int      @unique
   user        User     @relation(fields: [user_id], references: [id])
+  full_name        String?   @db.VarChar(55)  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   biography   String   @db.VarChar(120)
   picture_url String   @db.VarChar(255)
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  user_id     Int      
+  user        User     @relation(fields: [user_id], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String   @db.Text
+  content     String   @db.VarChar()
+  is_published Boolean @default(false)
+  picture_url String?  @db.VarChar(255)
 }
