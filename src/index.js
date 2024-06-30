@@ -47,8 +47,20 @@ const deletePostById = async () => {
     return deletePost
 }
 
+const checkReply = async () => {
+    const commentWithReply = await prismaClient.comment.findMany({
+        where: {
+            self_ref_id: {not: null}
+        },include:{
+            replies: true
+        }
+    })
+    console.log(commentWithReply);
+}
+
 getAllUsers()
 getPostsByUserId()
 getUserAndProfileById()
 updatePost()
 deletePostById()
+checkReply()

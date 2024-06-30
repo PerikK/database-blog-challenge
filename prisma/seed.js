@@ -103,6 +103,16 @@ async function seed() {
 		],
 	})
 
+	const replyToFirstComment = await prisma.comment.create({
+		data: {
+			user_id: createdUsers[2].id,
+			post_id: createPosts[1].id,
+			self_ref_id: createComments[0].id,
+			content: "John's reply on Alice's comment on Joan's post"
+		}
+	})
+
+	console.log(replyToFirstComment)
 
 
 
