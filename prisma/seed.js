@@ -5,7 +5,7 @@ async function seed() {
 	const createdUsers = await prisma.user.createManyAndReturn({
 		data: [
 			{ username: "alice_m", email: "test1@test.db" },
-			{ username: "alice_m2", email: "test2@test.db" },
+			{ username: "joan", email: "test2@test.db" },
 			{ username: "John_Doe", email: "jd@test.db" },
 		],
 	})
@@ -40,6 +40,7 @@ async function seed() {
 		],
 	})
 
+
 	const createPosts = await prisma.post.createManyAndReturn({
 		data: [
 			{
@@ -68,8 +69,8 @@ async function seed() {
 			},
 			{
 				user_id: createdUsers[1].id,
-				title: "Other Alice's 2nd post",
-				content: "Other Alice's 2nd post post's content",
+				title: "Joan's 2nd post",
+				content: "Joan's 2nd post post's content",
 				picture_url: "http://a_fake_image_repository.com/2",
 			},
 			{
@@ -80,6 +81,30 @@ async function seed() {
 			},
 		],
 	})
+	// console.log(createPosts);
+
+	const createComments = await prisma.comment.createManyAndReturn({
+		data: [
+			{
+				user_id: createdUsers[0].id,
+				post_id: createPosts[1].id,
+				content: "Alice's comment on Joan's post",
+			},
+			{
+				user_id: createdUsers[1].id,
+				post_id: createPosts[2].id,
+				content: "Joan's comment on John's post",
+			},
+			{
+				user_id: createdUsers[2].id,
+				post_id: createPosts[0].id,
+				content: "John's comment on Alice's post",
+			},
+		],
+	})
+
+
+
 
 	// Don't edit any of the code below this line
 	process.exit(0)
